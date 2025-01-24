@@ -25,3 +25,5 @@ This Streamlit application provides a graphical interface to interact with AVL a
     Required Python libraries:
     streamlit
     matplotlib
+
+**To run it in Windows:**python -m streamlit run visual.py
