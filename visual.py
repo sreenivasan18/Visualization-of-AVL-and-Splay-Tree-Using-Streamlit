@@ -1,6 +1,33 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
+st.markdown(
+    """
+    <style>
+    .header-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+    .icon {
+        margin-left: 15px;
+    }
+    </style>
+    <div class="header-container">
+        <a href="https://github.com/sreenivasan18/" target="_blank" class="icon">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="30" alt="GitHub">
+        </a>
+        <a href="https://www.linkedin.com/in/v-sreenivasan-187933282/" target="_blank" class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30" alt="LinkedIn">
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.title("Tree Visualization: AVL and Splay Trees")
+st.write("Use the options below to visualize AVL and Splay Tree operations.")
+
 class AVLNode:
     def __init__(self, key):
         self.key = key
@@ -42,35 +69,29 @@ class AVLTree:
     def insert(self, root, key):
         if not root:
             return AVLNode(key)
-
         if key < root.key:
             root.left = self.insert(root.left, key)
         else:
             root.right = self.insert(root.right, key)
-
         self.update_height(root)
         balance = self.balance(root)
-
         if balance > 1:
             if key < root.left.key:
                 return self.rotate_right(root)
             else:
                 root.left = self.rotate_left(root.left)
                 return self.rotate_right(root)
-
         if balance < -1:
             if key > root.right.key:
                 return self.rotate_left(root)
             else:
                 root.right = self.rotate_right(root.right)
                 return self.rotate_left(root)
-
         return root
 
     def delete(self, root, key):
         if not root:
             return root
-
         if key < root.key:
             root.left = self.delete(root.left, key)
         elif key > root.key:
@@ -81,24 +102,20 @@ class AVLTree:
             temp = self.get_min_value_node(root.right)
             root.key = temp.key
             root.right = self.delete(root.right, temp.key)
-
         self.update_height(root)
         balance = self.balance(root)
-
         if balance > 1:
             if self.balance(root.left) >= 0:
                 return self.rotate_right(root)
             else:
                 root.left = self.rotate_left(root.left)
                 return self.rotate_right(root)
-
         if balance < -1:
             if self.balance(root.right) <= 0:
                 return self.rotate_left(root)
             else:
                 root.right = self.rotate_right(root.right)
                 return self.rotate_left(root)
-
         return root
 
     def get_min_value_node(self, node):
@@ -221,11 +238,6 @@ class SplayTree:
                 self.root.right = node.right
                 node.right.parent = self.root
 
-    def maximum(self, x):
-        while x.right:
-            x = x.right
-        return x
-
 def visualize_tree(tree, is_avl=True):
     def draw_node(ax, node, x, y, dx, is_avl):
         if not node:
@@ -249,9 +261,6 @@ def visualize_tree(tree, is_avl=True):
 
     plt.tight_layout()
     return fig
-
-st.title("Tree Visualization: AVL and Splay Trees")
-st.write("Use the options below to visualize AVL and Splay Tree operations.")
 
 tree_type = st.selectbox("Choose the Tree Type:", ["AVL Tree", "Splay Tree"])
 
